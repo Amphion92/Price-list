@@ -1,0 +1,70 @@
+import org.junit.*;
+import static org.junit.Assert.*;
+public class Tests {
+
+    Price price1 = new Price(10,50);
+    Price price2 = new Price(50,25);
+    Price price3 = new Price(570,512);
+
+    Product product1 = new Product("Bread", price1);
+    Product product2 = new Product("Milk", price2);
+    Product product3 = new Product("Car", price3);
+
+    PriceList priceList1 = new PriceList();
+
+    @Test
+    public void PriceListTest(){
+        assertEquals(10, price1.getRubles());
+    }
+    @Test
+    public void priceListIsExist(){
+        assertNotNull(priceList1);
+    }
+    @Test
+    public void addNewProduct(){
+        priceList1.addNewProduct(23,product1);
+        priceList1.addNewProduct(53,product2);
+        priceList1.addNewProduct(83,product3);
+        assertEquals(product1, priceList1.getProductByCode(23));
+        assertEquals(product2, priceList1.getProductByCode(53));
+        assertEquals(product3, priceList1.getProductByCode(83));
+        assertNull(priceList1.getProductByCode(832));
+    }
+    @Test
+    public void changePrice(){
+        assertEquals(10,product1.getPrice().getRubles());
+        assertEquals(50,product1.getPrice().getKopeeks());
+        product1.setPrice(price2);
+        assertEquals(50,product1.getPrice().getRubles());
+        assertEquals(25,product1.getPrice().getKopeeks());
+    }
+    @Test
+    public void changeName(){
+        assertEquals("Bread", product1.getName());
+        product1.setName("Icecream");
+        assertEquals("Icecream", product1.getName());
+    }
+    @Test
+    public void removeProduct(){
+        priceList1.addNewProduct(23, product1);
+        assertNotNull(priceList1.getProductByCode(23));
+        priceList1.removeProduct(23);
+        assertNull(priceList1.getProductByCode(23));
+    }
+    @Test
+    public void countPriceByCodeAndQuantity(){
+        priceList1.addNewProduct(23,product1);
+        priceList1.addNewProduct(53,product2);
+        priceList1.addNewProduct(83,product3);
+
+        assertEquals(1050,priceList1.countPriceByCodeAndQuantity(23,100).getRubles());
+        assertEquals(0,priceList1.countPriceByCodeAndQuantity(23,100).getKopeeks());
+
+        assertEquals(1155,priceList1.countPriceByCodeAndQuantity(53,23).getRubles());
+        assertEquals(75,priceList1.countPriceByCodeAndQuantity(53,23).getKopeeks());
+
+        assertEquals(439391,priceList1.countPriceByCodeAndQuantity(83,764).getRubles());
+        assertEquals(68,priceList1.countPriceByCodeAndQuantity(83,764).getKopeeks());
+
+    }
+}

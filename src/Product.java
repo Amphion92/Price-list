@@ -1,12 +1,10 @@
 public class Product {
 
     private String name;
-    private int code;
     private Price price;
 
-    public Product(String name, int code, Price price){
+    public Product(String name, Price price){
         this.name = name;
-        this.code = code;
         this.price = price;
     }
     public Price getPrice(){
@@ -14,9 +12,6 @@ public class Product {
     }
     public String getName(){
         return name;
-    }
-    public int getCode(){
-        return code;
     }
     public void setName(String name){
         this.name = name;
