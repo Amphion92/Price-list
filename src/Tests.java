@@ -32,17 +32,39 @@ public class Tests {
     }
     @Test
     public void changePrice(){
-        assertEquals(10,product1.getPrice().getRubles());
-        assertEquals(50,product1.getPrice().getKopeeks());
-        product1.setPrice(price2);
-        assertEquals(50,product1.getPrice().getRubles());
-        assertEquals(25,product1.getPrice().getKopeeks());
+        priceList1.addNewProduct(23,product1);
+        priceList1.addNewProduct(53,product2);
+        priceList1.addNewProduct(83,product3);
+
+        assertEquals(price1, priceList1.getProductByCode(23).getPrice());
+        assertEquals(price2, priceList1.getProductByCode(53).getPrice());
+        assertEquals(price3, priceList1.getProductByCode(83).getPrice());
+
+        priceList1.changePrice(23, price3);
+        priceList1.changePrice(53, price1);
+        priceList1.changePrice(83, price2);
+
+        assertEquals(price3, priceList1.getProductByCode(23).getPrice());
+        assertEquals(price1, priceList1.getProductByCode(53).getPrice());
+        assertEquals(price2, priceList1.getProductByCode(83).getPrice());
     }
     @Test
     public void changeName(){
-        assertEquals("Bread", product1.getName());
-        product1.setName("Icecream");
-        assertEquals("Icecream", product1.getName());
+        priceList1.addNewProduct(23,product1);
+        priceList1.addNewProduct(53,product2);
+        priceList1.addNewProduct(83,product3);
+
+        assertEquals("Bread", priceList1.getProductByCode(23).getName());
+        assertEquals("Milk", priceList1.getProductByCode(53).getName());
+        assertEquals("Car", priceList1.getProductByCode(83).getName());
+
+        priceList1.changeName(23,"Kefir");
+        priceList1.changeName(53,"Cheese");
+        priceList1.changeName(83,"Icecream");
+
+        assertEquals("Kefir", priceList1.getProductByCode(23).getName());
+        assertEquals("Cheese", priceList1.getProductByCode(53).getName());
+        assertEquals("Icecream", priceList1.getProductByCode(83).getName());
     }
     @Test
     public void removeProduct(){

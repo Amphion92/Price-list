@@ -2,21 +2,33 @@ import java.util.*;
 
 public class PriceList {
     private Map<Integer,Product> priceList = new HashMap<>();
-
-    public void addNewProduct(Integer code, Product product){
-        priceList.put(code, product);
-    }
-    public void removeProduct(Integer code){
-        priceList.remove(code);
+    public Price countPriceByCodeAndQuantity(Integer code, int quantity){
+        return new Price(priceList.get(code).getPrice().getFullPriceInKopeeks()*quantity);
     }
     public Product getProductByCode(Integer code){
         return priceList.get(code);
     }
-    public void setName(Integer code, String newName){
-        priceList.get(code).setName(newName);
+    public void addNewProduct(Integer code, Product product){
+        if (priceList.putIfAbsent(code, product) != null){
+            throw new IllegalArgumentException("Продукт с таким кодом уже существует!");
+        }
     }
-    public Price countPriceByCodeAndQuantity(Integer code, int quantity){
-        int copeeks = (priceList.get(code).getPrice().getKopeeks()) + (priceList.get(code).getPrice().getRubles() * 100);
-        return new Price(0,copeeks*quantity);
+    public boolean removeProduct(Integer code){
+        return priceList.remove(code) != null;
     }
+    public void changeName(Integer code, String newName){
+        Product product = getProductByCode(code);
+        if (product == null) throw new IllegalArgumentException("Продукта с таким кодом не существует!");
+        Price price = product.getPrice();
+        Product newProduct = new Product(newName, price);
+        priceList.put(code, newProduct);
+    }
+    public void changePrice(Integer code, Price price){
+        Product product = getProductByCode(code);
+        if (product == null) throw new IllegalArgumentException("Продукта с таким кодом не существует!");
+        String name = product.getName();
+        Product newProduct = new Product(name, price);
+        priceList.put(code, newProduct);
+    }
+
 }
